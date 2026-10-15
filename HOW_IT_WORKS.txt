@@ -1,0 +1,219 @@
+================================================================
+  CSV REPAIR TOOLKIT — HOW IT WORKS
+  Simple explanation of all features
+================================================================
+
+
+----------------------------------------------------------------
+1. CSV REPAIR TOOL
+----------------------------------------------------------------
+- You upload a broken CSV file.
+- PHP reads the file bytes and runs 7 fix passes:
+    1) Removes null bytes
+    2) Converts encoding to UTF-8
+    3) Strips BOM characters
+    4) Normalises mixed line endings (CRLF / CR → LF)
+    5) Joins split quoted fields (unclosed quotes)
+    6) Pads or trims rows with wrong column count
+    7) Prefixes formula injection cells (=, +, -, @)
+- Shows a table of every fix made.
+- Lets you preview the first 10 repaired rows.
+- Gives you a Download button for the fixed file.
+- The temp file is deleted right after download.
+
+
+----------------------------------------------------------------
+2. CSV ENCODING DETECTOR
+----------------------------------------------------------------
+- You upload any CSV file.
+- PHP checks for BOM bytes at the start of the file.
+- Then uses mb_detect_encoding() for deeper detection.
+- Reports: encoding name, confidence %, BOM yes/no,
+  line ending style, detected delimiter, file size.
+- Shows non-ASCII byte samples.
+- Recommends how to open the file correctly (Excel, Sheets).
+- File is NOT stored — read once and discarded.
+
+
+----------------------------------------------------------------
+3. CSV DELIMITER CONVERTER
+----------------------------------------------------------------
+- You upload a CSV file.
+- Choose the FROM delimiter (or use Auto-detect).
+- Choose the TO delimiter (comma, semicolon, tab, pipe, custom).
+- PHP reads all rows using fgetcsv() with the old delimiter.
+- Writes them back using fputcsv() with the new delimiter.
+- Quoted fields containing the delimiter are handled safely.
+- Preview shows first 8 rows. Download saves the new file.
+
+
+----------------------------------------------------------------
+4. CSV VALIDATOR
+----------------------------------------------------------------
+- You upload a CSV file.
+- PHP runs these checks on every row:
+    - Consistent column count across all rows
+    - No duplicate header names
+    - No empty header names
+    - Valid UTF-8 encoding in every cell
+    - No completely empty rows
+    - No formula injection risk cells
+- Shows PASS or FAIL banner.
+- Lists every error and warning with exact row + column number.
+- Does NOT change your file — read-only report only.
+- Links to CSV Repair Tool if errors are found.
+
+
+----------------------------------------------------------------
+5. REMOVE DUPLICATE ROWS
+----------------------------------------------------------------
+- You upload a CSV file.
+- Choose: compare ALL columns, or only SELECTED key columns.
+  (e.g. remove rows with same Email even if other cols differ)
+- Choose: keep FIRST or LAST occurrence of each duplicate.
+- PHP builds a hash key per row and tracks seen keys.
+- Removes any row whose key was already seen.
+- Shows: original count, unique count, removed count.
+- Preview + Download the deduplicated file.
+
+
+----------------------------------------------------------------
+6. CSV TO JSON CONVERTER
+----------------------------------------------------------------
+- You upload a CSV file.
+- Choose one of 3 output formats:
+    a) Array of Objects  →  [ {"col": "val"}, ... ]
+       (most common, used by APIs)
+    b) Array of Arrays   →  [ ["val", "val"], ... ]
+       (compact, no header names in output)
+    c) Keyed Object      →  { "keyval": {"col": "val"}, ... }
+       (first column becomes the object key)
+- Toggle Pretty-print for human-readable indentation.
+- Copy button copies JSON to clipboard.
+- Download saves a .json file.
+
+
+----------------------------------------------------------------
+7. CSV MERGER
+----------------------------------------------------------------
+- You select 2 to 10 CSV files at once.
+- Choose column matching method:
+    a) By Header Name — columns matched by name.
+       Files can have different columns.
+       Missing columns are filled with empty values.
+    b) By Position — columns matched left to right.
+       All files should have same column structure.
+- PHP reads all files, aligns columns, and appends all rows.
+- One combined CSV is produced.
+- Preview + Download the merged file.
+
+
+----------------------------------------------------------------
+8. CSV SPLITTER
+----------------------------------------------------------------
+- You upload one large CSV file.
+- Set how many rows you want per chunk (e.g. 1000).
+- PHP reads all data rows, splits into batches.
+- Each chunk gets the original header row added back.
+  So every chunk is a valid standalone CSV file.
+- Each chunk appears as its own Download button.
+- Useful for splitting files too large for Excel (1M row limit).
+
+
+----------------------------------------------------------------
+9. CSV FILE COMPARISON
+----------------------------------------------------------------
+- You upload two CSV files (File A = original, File B = updated).
+- Choose which column is the KEY (used to match rows).
+  Default is column 0 (first column).
+- PHP indexes both files by key value.
+- Compares every key found in either file:
+    - ADDED     = key exists in B but not in A  (green row)
+    - REMOVED   = key exists in A but not in B  (red row)
+    - MODIFIED  = key in both but cells differ  (yellow row)
+    - EQUAL     = no changes (hidden by default)
+- Changed cells are highlighted individually.
+- Download a CSV comparison report of all differences.
+
+
+----------------------------------------------------------------
+10. CSV ONLINE VIEWER
+----------------------------------------------------------------
+- You select a CSV file — IT IS NEVER UPLOADED.
+- JavaScript reads the file locally using FileReader API.
+- Detects delimiter automatically (comma, semicolon, tab, pipe).
+- Displays data in a searchable, sortable table in the browser.
+- Click any column header to sort ascending / descending.
+- Search box filters rows in real time.
+- Large files are paginated (500 rows per page).
+- Shows stats: total rows, columns, empty cells, filtered count.
+- Export Filtered button downloads only the visible/filtered rows.
+- 100% private — data never leaves your device.
+
+
+================================================================
+  SECURITY & PRIVACY SUMMARY
+================================================================
+
+  Server-side tools (1-9):
+  - Files saved to storage/temp/ folder (outside web root).
+  - Random 32-hex filename — no relation to original name.
+  - Deleted immediately after download.
+  - Auto-cleaned every hour if download never happens.
+  - CSRF token required on every form POST.
+  - File type checked by extension AND MIME type.
+  - Max file size: 500 MB.
+
+  CSV Viewer (tool 10):
+  - Zero server involvement.
+  - FileReader API in browser only.
+  - Nothing is sent over the network.
+
+  Admin panel:
+  - Login required for all admin pages.
+  - Password stored as bcrypt hash (cost 12).
+  - Session regenerated on login and every 5 minutes.
+  - All forms protected with CSRF tokens.
+
+
+================================================================
+  ADMIN LOGIN
+================================================================
+
+  URL:       http://localhost/csvtoolkit.online/admin/
+  Username:  admin
+  Password:  Admin@123   ← change this after first login!
+
+
+================================================================
+  DATABASE TABLES
+================================================================
+
+  tool_categories  — 5 categories (Repair, Convert, Analyze, etc.)
+  tools            — 10 tools with SEO metadata
+  tool_faqs        — FAQs per tool
+  site_settings    — site name, AdSense ID, analytics ID
+  admin_users      — admin login accounts
+  contact_messages — messages from Contact page form
+
+
+================================================================
+  FILE FLOW (server-side tools)
+================================================================
+
+  Browser → POST /csv-repair/ → index.php
+         → tool/csv-repair/index.php
+         → CsvRepairService::repair()
+         → saveTempFile()  →  storage/temp/abc123.csv
+         → show preview + download link
+
+  Browser → GET /download?file=abc123.csv&name=fixed.csv
+         → includes/download.php
+         → validate token (hex only, no path traversal)
+         → readfile() → stream to browser
+         → unlink()   → file deleted
+
+
+================================================================
+  END OF DOCUMENT
+================================================================

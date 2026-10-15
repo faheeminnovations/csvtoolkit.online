@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Block admin and private paths
+Disallow: /admin/
+Disallow: /storage/
+Disallow: /config/
+Disallow: /database/
+Disallow: /services/
+Disallow: /includes/
+
+# Block search result pages with no indexable content
+Disallow: /download
+
+# Allow all CSS and JS for rendering
+Allow: /assets/
+
+Sitemap: https://csvtoolkit.online/sitemap.php

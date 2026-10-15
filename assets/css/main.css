@@ -1,0 +1,384 @@
+/* =============================================================================
+   CSV Repair Toolkit — Main Stylesheet
+   ============================================================================= */
+
+/* ── CSS Custom Properties ────────────────────────────────────────────────── */
+:root {
+  --primary:       #0d6efd;
+  --primary-dark:  #0a58ca;
+  --secondary:     #6c757d;
+  --success:       #198754;
+  --warning:       #ffc107;
+  --danger:        #dc3545;
+  --info:          #0dcaf0;
+  --light:         #f8f9fa;
+  --dark:          #212529;
+  --border-radius: .5rem;
+  --shadow-sm:     0 .125rem .25rem rgba(0,0,0,.075);
+  --shadow:        0 .25rem .75rem rgba(0,0,0,.1);
+  --shadow-lg:     0 .5rem 1.5rem rgba(0,0,0,.15);
+  --font-sans:     'Segoe UI', system-ui, -apple-system, sans-serif;
+  --transition:    .2s ease-in-out;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--dark);
+  background: #f5f7fb;
+  line-height: 1.6;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--primary-dark); text-decoration: underline; }
+
+img { max-width: 100%; height: auto; }
+
+/* ── Skip link ───────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute; top: -100px; left: 1rem; z-index: 9999;
+  background: var(--primary); color: #fff; padding: .4rem .8rem;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  transition: top .2s;
+}
+.skip-link:focus { top: 0; color: #fff; }
+
+/* ── Navbar ──────────────────────────────────────────────────────────────── */
+.navbar { box-shadow: var(--shadow); }
+.navbar-brand { font-size: 1.2rem; letter-spacing: -.01em; }
+
+.dropdown-menu-tools {
+  min-width: 260px;
+  padding: .5rem 0;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+}
+.dropdown-menu-tools .dropdown-item {
+  padding: .5rem 1rem;
+  font-size: .9rem;
+  transition: background var(--transition);
+}
+.dropdown-menu-tools .dropdown-item:hover { background: #e9f0ff; }
+
+/* ── Hero Section ────────────────────────────────────────────────────────── */
+.hero-section {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 50%, #084298 100%);
+  color: #fff;
+  padding: 5rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-section .container { position: relative; z-index: 1; }
+.hero-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; }
+.hero-subtitle { font-size: 1.15rem; opacity: .9; max-width: 560px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  border-radius: 2rem; padding: .35rem .9rem; font-size: .85rem; margin-bottom: 1.5rem;
+}
+
+/* Search bar in hero */
+.hero-search .form-control {
+  border-radius: 2rem 0 0 2rem;
+  padding: .75rem 1.25rem;
+  font-size: 1rem;
+  border: 0;
+  box-shadow: none;
+}
+.hero-search .btn {
+  border-radius: 0 2rem 2rem 0;
+  padding: .75rem 1.5rem;
+  background: #ffc107; border-color: #ffc107; color: #212529; font-weight: 600;
+}
+.hero-search .btn:hover { background: #ffb300; }
+
+/* ── Stats bar ───────────────────────────────────────────────────────────── */
+.stats-bar {
+  background: #fff;
+  border-bottom: 1px solid #e9ecef;
+  padding: 1rem 0;
+}
+.stat-item { text-align: center; }
+.stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+.stat-label { font-size: .8rem; color: var(--secondary); text-transform: uppercase; letter-spacing: .05em; }
+
+/* ── Section titles ──────────────────────────────────────────────────────── */
+.section-title { font-weight: 700; font-size: 1.75rem; }
+.section-subtitle { color: var(--secondary); max-width: 600px; margin: 0 auto; }
+
+/* ── Tool cards ──────────────────────────────────────────────────────────── */
+.tool-card-home {
+  border: 1px solid #e9ecef;
+  border-radius: var(--border-radius);
+  background: #fff;
+  padding: 1.5rem;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  height: 100%;
+  display: flex; flex-direction: column;
+}
+.tool-card-home:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+  text-decoration: none;
+}
+.tool-icon-wrap {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: #e9f0ff; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem; font-size: 1.4rem; color: var(--primary);
+  flex-shrink: 0;
+}
+.tool-card-home h3 { font-size: 1rem; font-weight: 600; color: var(--dark); margin-bottom: .4rem; }
+.tool-card-home p  { font-size: .875rem; color: var(--secondary); flex-grow: 1; margin-bottom: .75rem; }
+.tool-card-home .badge { font-size: .72rem; }
+
+/* ── Popular badge ───────────────────────────────────────────────────────── */
+.badge-popular { background: #fff3cd; color: #856404; border: 1px solid #ffc107; }
+
+/* ── Tool page card ──────────────────────────────────────────────────────── */
+.tool-card { border-radius: var(--border-radius); background: #fff; }
+.tool-title { font-weight: 700; color: var(--dark); }
+
+/* ── Upload area ─────────────────────────────────────────────────────────── */
+.upload-area {
+  border: 2px dashed #ced4da;
+  border-radius: var(--border-radius);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+  background: #fafbfc;
+}
+.upload-area:hover, .upload-area.dragover {
+  border-color: var(--primary);
+  background: #e9f0ff;
+}
+.upload-area .upload-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: .75rem; }
+.upload-area h3 { font-size: 1rem; font-weight: 600; margin-bottom: .25rem; }
+.upload-area p  { font-size: .875rem; color: var(--secondary); margin: 0; }
+.upload-area input[type="file"] { display: none; }
+
+/* ── Results area ────────────────────────────────────────────────────────── */
+.result-box {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+}
+.result-box pre {
+  max-height: 400px;
+  overflow: auto;
+  margin: 0;
+  font-size: .85rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── CSV table viewer ────────────────────────────────────────────────────── */
+.csv-table-wrapper {
+  overflow-x: auto;
+  max-height: 500px;
+  border: 1px solid #dee2e6;
+  border-radius: var(--border-radius);
+}
+.csv-table {
+  font-size: .85rem;
+  white-space: nowrap;
+  margin: 0;
+  min-width: 100%;
+}
+.csv-table thead th {
+  position: sticky; top: 0;
+  background: var(--primary); color: #fff;
+  font-weight: 600; z-index: 2;
+  white-space: nowrap;
+}
+.csv-table tbody tr:hover { background: #e9f0ff; }
+.csv-table td, .csv-table th { padding: .4rem .75rem; border-color: #dee2e6; }
+
+/* Diff colours */
+.row-added    { background: #d4edda !important; }
+.row-removed  { background: #f8d7da !important; }
+.row-modified { background: #fff3cd !important; }
+.cell-changed { background: #ffc107; color: #212529; border-radius: 3px; padding: 0 3px; }
+
+/* ── Progress / loading ──────────────────────────────────────────────────── */
+.processing-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 9999;
+  align-items: center; justify-content: center;
+}
+.processing-overlay.show { display: flex; }
+.processing-card {
+  background: #fff;
+  border-radius: var(--border-radius);
+  padding: 2rem 3rem;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+.spinner-ring {
+  width: 3rem; height: 3rem;
+  border: 4px solid #e9ecef;
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .75s linear infinite;
+  margin: 0 auto 1rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Validation report ───────────────────────────────────────────────────── */
+.validation-summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem; margin-bottom: 1.5rem;
+}
+.val-stat {
+  text-align: center; padding: 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid #dee2e6;
+  background: #fff;
+}
+.val-stat .val-num { font-size: 2rem; font-weight: 700; }
+.val-stat .val-lbl { font-size: .8rem; text-transform: uppercase; color: var(--secondary); }
+
+.error-row   { background: #fff5f5; }
+.warning-row { background: #fffdf0; }
+.error-badge   { background: #dc3545; color: #fff; border-radius: .25rem; padding: 1px 6px; font-size: .75rem; }
+.warning-badge { background: #ffc107; color: #212529; border-radius: .25rem; padding: 1px 6px; font-size: .75rem; }
+
+/* ── Diff comparison ─────────────────────────────────────────────────────── */
+.diff-legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; font-size: .85rem; }
+.diff-legend-item { display: flex; align-items: center; gap: .4rem; }
+.diff-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Breadcrumbs ─────────────────────────────────────────────────────────── */
+.tool-breadcrumb { margin-bottom: 1rem; }
+.breadcrumb { background: transparent; padding: 0; margin: 0; font-size: .875rem; }
+.breadcrumb-item + .breadcrumb-item::before { color: #adb5bd; }
+
+/* ── Feature cards (how it works) ────────────────────────────────────────── */
+.feature-step {
+  text-align: center; padding: 1.5rem;
+  border-radius: var(--border-radius);
+  background: #fff;
+  border: 1px solid #e9ecef;
+  height: 100%;
+}
+.step-number {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--primary); color: #fff;
+  font-weight: 700; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+}
+.feature-step h3 { font-size: 1rem; font-weight: 600; margin-bottom: .4rem; }
+.feature-step p  { font-size: .875rem; color: var(--secondary); margin: 0; }
+
+/* ── Category pills ──────────────────────────────────────────────────────── */
+.category-pill {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .5rem 1rem;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 2rem;
+  font-size: .875rem; font-weight: 500;
+  color: var(--dark);
+  transition: all var(--transition);
+}
+.category-pill:hover {
+  background: var(--primary); color: #fff;
+  border-color: var(--primary); text-decoration: none;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.site-footer { border-top: 1px solid #343a40; }
+.footer-link {
+  color: #adb5bd; font-size: .875rem; display: block;
+  margin-bottom: .35rem; transition: color var(--transition);
+}
+.footer-link:hover { color: #fff; text-decoration: none; }
+.footer-badge .badge { font-size: .75rem; padding: .35rem .6rem; }
+
+/* ── Related tool links ──────────────────────────────────────────────────── */
+.related-tool-link { color: var(--dark); transition: color var(--transition); }
+.related-tool-link:hover { color: var(--primary); text-decoration: none; }
+
+/* ── Admin ───────────────────────────────────────────────────────────────── */
+.admin-sidebar {
+  min-height: 100vh;
+  background: #1a1d23;
+  width: 240px;
+  flex-shrink: 0;
+}
+.admin-sidebar .nav-link {
+  color: #adb5bd; padding: .6rem 1.25rem; border-radius: .375rem;
+  margin: .1rem .5rem; font-size: .9rem;
+  transition: all var(--transition);
+}
+.admin-sidebar .nav-link:hover,
+.admin-sidebar .nav-link.active { background: rgba(13,110,253,.2); color: #fff; }
+.admin-sidebar .nav-link i { width: 20px; }
+.admin-main { flex: 1; padding: 2rem; background: #f5f7fb; min-height: 100vh; }
+.admin-stat-card {
+  background: #fff; border-radius: var(--border-radius);
+  border: 1px solid #e9ecef; padding: 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.admin-stat-icon {
+  width: 52px; height: 52px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+
+/* ── Utility helpers ─────────────────────────────────────────────────────── */
+.bg-gradient-primary { background: linear-gradient(135deg, #0d6efd, #0a58ca); }
+.text-gradient {
+  background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.card-hover { transition: transform var(--transition), box-shadow var(--transition); }
+.card-hover:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+.lh-sm { line-height: 1.3; }
+.font-mono { font-family: 'Courier New', Courier, monospace; }
+
+/* ── File list (merger/splitter) ─────────────────────────────────────────── */
+.file-list-item {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .6rem .75rem;
+  background: #f8f9fa; border: 1px solid #dee2e6;
+  border-radius: .375rem; margin-bottom: .4rem; font-size: .875rem;
+}
+.file-list-item .file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-list-item .btn-remove { flex-shrink: 0; }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 767.98px) {
+  .hero-section { padding: 3rem 0 2.5rem; }
+  .hero-title    { font-size: 2rem; }
+  .tool-card-home { padding: 1.25rem; }
+  .admin-sidebar { width: 100%; min-height: auto; }
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fadeInUp .4s ease-out both; }
+
+/* ── Print ───────────────────────────────────────────────────────────────── */
+@media print {
+  .navbar, .site-footer, .ad-slot, .upload-area { display: none !important; }
+}
